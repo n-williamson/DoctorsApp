@@ -1,7 +1,9 @@
 package com.usa.doctorsapp.controller;
 
 
+import com.usa.doctorsapp.model.ClientReport;
 import com.usa.doctorsapp.model.Reservation;
+import com.usa.doctorsapp.model.ReservationReport;
 import com.usa.doctorsapp.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,5 +47,20 @@ public class ReservationController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable("idReservation") Integer idReservation){
         return reservationService.delete(idReservation);
+    }
+
+    @GetMapping("/report-status")
+    public ReservationReport getReservationStatusReport(){
+        return reservationService.getReservationStatusReport();
+    }
+
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservation> getReservationReportDates(@PathVariable ("dateOne") String dateOne, @PathVariable ("dateTwo") String dateTwo){
+        return reservationService.getReservationPeriod(dateOne, dateTwo);
+    }
+
+    @GetMapping("/report-clients")
+    public List<ClientReport> getClients(){
+        return reservationService.getTopClients();
     }
 }
